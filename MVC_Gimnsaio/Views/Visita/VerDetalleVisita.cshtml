@@ -1,0 +1,26 @@
+@model Visita
+@{
+    ViewData["Title"] = "Detalle de Visita";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Fecha: @Model.fechaVisita</label>
+    </div>
+    <div class="mb-3">
+        <label>Id(miembro): @Model.miembroId</label>
+    </div>
+    
+    <div class="mb-3">
+        <label>Descripción: @Model.descripcionVisita</label>
+    </div>    
+
+    <div class="row col-6">
+        <div class="col-6 col-md-6">
+            <a asp-action="Index" class="btn btn-outline-secondary">Regresar</a>
+        </div>
+    </div>
+</form>
+
+<p>Esta es la vista para ver detalle de visita</p>

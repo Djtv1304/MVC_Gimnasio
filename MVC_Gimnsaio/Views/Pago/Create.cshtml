@@ -1,0 +1,59 @@
+@model Pago
+@{
+    ViewData["Title"] = "Realizar Pago";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Id del pagador:</label>
+        <input asp-for="miembroId" class="form-control" placeholder="Ingrese el id del pagador">
+    </div>
+    <div class="mb-3">
+        <label>Monto Pago:</label>
+        <input asp-for="montoPago" class="form-control" placeholder="Ingrese el monto del pago">
+    </div>
+    <div class="mb-3">
+        <label>Tipo tarjeta:</label>
+        <div class="form-floating">
+          <select asp-for="tipoTarjeta" class="form-select" id="floatingSelect" aria-label="Floating label select example">
+            <option selected>Open this select menu</option>
+            <option value="">Selecciona una opción</option>
+            <option value="Visa">Visa</option>
+            <option value="MasterCard">MasterCard</option>
+            <option value="American Express">American Express</option>
+            <option value="Discover">Discover</option>
+            <option value="Diners Club">Diners Club</option>
+          </select>
+          <label for="floatingSelect">Tipo de tarjetas</label>
+        </div>
+    </div>
+    
+    <div class="mb-3">
+        <label>Número tarjeta:</label>
+        <input asp-for="numeroTarjeta" class="form-control" placeholder="Ingrese el numero de la tarjeta">
+    </div>    
+    <div class="mb-3">
+        <label>CVV:</label>
+        <input asp-for="cvvTarjeta" class="form-control" placeholder="Ingrese el CVV">
+    </div>
+    <div class="mb-3">
+        <label>Caducidad:</label>
+        <input asp-for="caducidadTarjeta" type="date" class="form-control" placeholder="Ingrese la fecha de caducidad (aaaa-mm-dd)">
+    </div>
+    <div class="mb-3">
+        <label>Titular:</label>
+        <input asp-for="titularTarjeta" class="form-control" placeholder="Ingrese el titular de la tarjeta">
+    </div>
+    
+    <div class="row col-6">
+        <div class="col-6 col-md-6">
+            <button type="submit" class="btn btn-primary">Pagar</button>
+        </div>
+        <div class="col-6 col-md-6">
+            <a asp-action="Index" class="btn btn-outline-secondary">Regresar</a>
+        </div>
+    </div>
+</form>
+
+<p>Esta es la vista para realizar pagos</p>

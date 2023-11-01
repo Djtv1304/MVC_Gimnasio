@@ -1,0 +1,40 @@
+@model Pago
+@{
+    ViewData["Title"] = "Detalle Pago";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Fecha de pago: @Model.fechaPago</label>
+    </div>    
+    <div class="mb-3">
+        <label>Id(miembro): @Model.miembroId</label>
+    </div>
+    <div class="mb-3">
+        <label>Monto: @Model.montoPago</label>
+    </div>
+    <div class="mb-3">
+        <label>Tipo de tarjeta: @Model.tipoTarjeta</label>
+    </div>
+    <div class="mb-3">
+        <label>Número Tarjeta: @Model.numeroTarjeta</label>
+    </div>
+    <div class="mb-3">
+        <label>CVV: @Model.cvvTarjeta</label>
+    </div>
+    <div class="mb-3">
+        <label>Caducidad: @Model.caducidadTarjeta</label>
+    </div>
+    <div class="mb-3">
+        <label>Titular: @Model.titularTarjeta</label>
+    </div>
+
+    <div class="row col-6">
+        <div class="col-6 col-md-6">
+            <a asp-action="Index" class="btn btn-outline-secondary">Regresar</a>
+        </div>
+    </div>
+</form>
+
+<p>Esta es la vista para ver detalles del pago</p>
