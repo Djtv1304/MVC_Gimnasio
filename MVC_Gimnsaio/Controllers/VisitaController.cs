@@ -134,23 +134,4 @@ public class VisitaController : Controller
             }
             return RedirectToAction("Index");
         }
-
-        public async Task<IActionResult> VisitasMiembro(int idMiembro)
-        {
-            try
-            {
-                List<Visita> visitasPorMiembro= await _apiService.GetVisitasPorMiembro(idMiembro);
-
-                if (visitasPorMiembro != null)
-                {
-                    // Retorno el producto a la vista
-                    return View(visitasPorMiembro);
-                }
-            }
-            catch (Exception error)
-            {
-                return RedirectToAction("Index");
-            }
-            return RedirectToAction("Index");
-        }
 }

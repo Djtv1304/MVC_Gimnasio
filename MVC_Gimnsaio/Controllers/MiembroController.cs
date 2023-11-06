@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MVC_Gimnsaio.Models;
 using MVC_Gimnsaio.Service;
 
@@ -9,13 +10,15 @@ public class MiembroController : Controller
     private readonly IAPIServiceMiembro _apiService;
     private readonly IAPIServiceMembresia _apiServiceMembresia;
     private readonly IAPIServicePago _apiServicePago;
+    private readonly IAPIServiceVisita _apiServiceVisita;
 
-    public MiembroController( IAPIServiceMiembro IAPIService, IAPIServiceMembresia APIServiceMembresia, IAPIServicePago APIServicePago)
+    public MiembroController( IAPIServiceMiembro IAPIService, IAPIServiceMembresia APIServiceMembresia, IAPIServicePago APIServicePago, IAPIServiceVisita APIServiceVisita)
     {
         // Inyecto la dependencia de mi interfaz para poder hacer uso de mis métodos GET, POST, PUT, DELETE
         _apiService = IAPIService;
         _apiServiceMembresia = APIServiceMembresia;
         _apiServicePago = APIServicePago;
+        _apiServiceVisita = APIServiceVisita;
     }
     
     
@@ -67,8 +70,14 @@ public class MiembroController : Controller
                 // Invoco a la API y traigo mi producto en base al ID
                 Miembro miembroEncontrado = await _apiService.GetMiembroByID(idMiembro);
 
+                List<Membresia> membresias = await _apiServiceMembresia.GetMembresia();
+
                 if (miembroEncontrado != null)
                 {
+
+                    // Pásala a la vista
+                    ViewBag.Membresia = new SelectList(membresias, "idMembresia", "nombreMembresia");
+
                     // Retorno el producto a la vista
                     return View(miembroEncontrado);
                 }
@@ -160,35 +169,68 @@ public class MiembroController : Controller
             }
             return RedirectToAction("Index");
         }
-        
-        public async Task<IActionResult> VerPagosPorMiembro(int idMiembro)
-        {
-            try
-            {
-                Miembro miembroEncontrado = await _apiService.GetMiembroByID(idMiembro);
-                List<Pago> pagos = await _apiServicePago.GetPagosPorMiembro(miembroEncontrado.idMiembro);
 
-                if (pagos.Count > 0)
-                {
-                    // Retorno el producto a la vista
-                    return View(pagos);
-                }
-            }
-            catch (Exception error)
+    public async Task<IActionResult> VerPagosPorMiembro(int idMiembro)
+    {
+        try
+        {
+            Miembro miembroEncontrado = await _apiService.GetMiembroByID(idMiembro);
+            List<Pago> pagos = await _apiServicePago.GetPagosPorMiembro(miembroEncontrado.idMiembro);
+
+            if (pagos.Count > 0)
             {
-                return RedirectToAction("Index");
+                // Obtén el miembro
+                Miembro miembro = await _apiService.GetMiembroByID(idMiembro);
+
+                // Pásalo a la vista
+                ViewBag.Miembro = miembro;
+
+                // Retorno el producto a la vista
+                return View(pagos);
             }
+        }
+        catch (Exception error)
+        {
             return RedirectToAction("Index");
         }
-        
-        
-        public async Task<IActionResult> Renovar(int idMembresia)
+        return RedirectToAction("Index");
+    }
+
+
+
+    public async Task<IActionResult> Renovar(int idMembresia)
         {
             
             return RedirectToAction("Index");
         }
         public async Task<IActionResult> Cancelar(int idMembresia)
         {
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> VisitasMiembro(int idMiembro)
+        {
+            try
+            {
+                List<Visita> visitasPorMiembro = await _apiServiceVisita.GetVisitasPorMiembro(idMiembro);
+
+                if (visitasPorMiembro != null)
+                {
+
+                    // Obtén el miembro
+                    Miembro miembro = await _apiService.GetMiembroByID(idMiembro);
+
+                    // Pásalo a la vista
+                    ViewBag.Miembro = miembro;
+
+                    // Retorno el producto a la vista
+                    return View(visitasPorMiembro);
+                }
+            }
+            catch (Exception error)
+            {
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
         }
 }

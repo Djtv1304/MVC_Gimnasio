@@ -12,7 +12,7 @@
     <thead>
     <tr>
         <th scope="col">Id</th>
-        <th scope="col">Id(miembro):</th>
+        <th scope="col">Id del miembro:</th>
         <th scope="col">Fecha pago:</th>
         <th scope="col">Monto:</th>
     </tr>
@@ -24,12 +24,15 @@
         <tr>
             <th scope="row">@item.idPago</th>
             <td>@item.miembroId</td>
+
             <td>@item.fechaPago</td>
             <td>@item.montoPago</td>
             <td>
                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                    <a asp-action="ReversarTransacción" asp-route-idPago="@item.idPago" class="btn btn-warning"><i class="bi bi-trash-fill"></i></a>
+                    <a asp-action="VerDetallePago" asp-route-idPago="@item.idPago" class="btn btn-warning">Ver Pago<i class="bi bi-trash-eye"></i></a>
+                    <a asp-action="ReversarTransacción" asp-route-idPago="@item.idPago" class="btn btn-warning">Reversar pago<i class="bi bi-trash-fill"></i></a>
                 </div>
+
             </td>
         </tr>
     }

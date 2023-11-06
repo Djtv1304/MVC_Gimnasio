@@ -174,5 +174,28 @@ namespace MVC_Gimnsaio.Service
                 throw new Exception($"Error: {response.StatusCode}");
             }
         }
+
+        public async Task<Miembro> GetMiembroByID(int idMiembro)
+        {
+
+            // Send a GET request to the API
+            HttpResponseMessage response = await httpClient.GetAsync(_baseURL + "api/Miembro/" + idMiembro);
+
+            // Ensure the request was successful
+            if (response.IsSuccessStatusCode)
+            {
+                // Read the response content as a string
+                string content = await response.Content.ReadAsStringAsync();
+
+                // Deserialize the JSON string to a list of Producto objects
+                Miembro miembroEncontrado = JsonConvert.DeserializeObject<Miembro>(content);
+
+                return miembroEncontrado;
+            }
+            else
+            {
+                throw new Exception($"Error: {response.StatusCode}");
+            }
+        }
     }
 }

@@ -12,8 +12,10 @@ public class PagoController : Controller
     {
         // Inyecto la dependencia de mi interfaz para poder hacer uso de mis métodos GET, POST, PUT, DELETE
         _apiService = IAPIService;
+        
 
     }
+
     // GET
     
     // // GET: ProductoController
@@ -22,6 +24,7 @@ public class PagoController : Controller
             try 
             {
                 List<Pago> pagos = await _apiService.GetPagos();
+
                 return View(pagos);
             }
             catch (Exception error)
@@ -41,10 +44,14 @@ public class PagoController : Controller
         {
             try
             {
-                if (pago != null)
+
+                Miembro miembroDelPago = await _apiService.GetMiembroByID(pago.miembroId);
+
+                if (pago != null || miembroDelPago != null)
                 {
                     // Invoco a la API y le envío el nuevo producto
                     await _apiService.CreatePago(pago); 
+                 
                     // Redirijo a la vista principal
                     return RedirectToAction("Index"); 
                 }
@@ -54,12 +61,30 @@ public class PagoController : Controller
             }
             return View();
         }
-        
-        // GET: ProductoController/Edit/5
-        
-    
-        // GET: ProductoController/Delete/5
-        public async Task<IActionResult> Delete(int idPago)
+
+    // GET: ProductoController/Edit/5
+    public async Task<IActionResult> VerDetallePago(int idPago)
+    {
+        try
+        {
+            // Invoco a la API y traigo mi producto en base al ID
+            Pago pagoEncontrado = await _apiService.GetPagoByID(idPago);
+
+            if (pagoEncontrado != null)
+            {
+                // Retorno el producto a la vista
+                return View(pagoEncontrado);
+            }
+        }
+        catch (Exception error)
+        {
+            return RedirectToAction("Index");
+        }
+        return RedirectToAction("Index");
+    }
+
+    // GET: ProductoController/Delete/5
+    public async Task<IActionResult> Delete(int idPago)
         {
             try
             {

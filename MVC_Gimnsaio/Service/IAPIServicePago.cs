@@ -10,4 +10,5 @@ public interface IAPIServicePago
     public Task<List<Pago>> GetPagosPorMiembro(int idMiembro);
     public Task<Pago> GetPagoByID(int idPago);
     public Task<Pago> UpdatePago(Pago newPago, int idPago);
+    public Task<Miembro> GetMiembroByID(int idMiembro);
 }

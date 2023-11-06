@@ -1,0 +1,33 @@
+@model List<MVC_Gimnsaio.Models.Pago>
+@{
+    ViewData["Title"] = "Lista de Pagos por miembro";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Id Pago:</th>
+        <th scope="col">Miembro:</th>
+        <th scope="col">Id Miembro:</th>
+        <th scope="col">Fecha pago:</th>
+        <th scope="col">Monto:</th>
+    </tr>
+    </thead>
+    
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th scope="row">@item.idPago</th>
+            <th>@ViewBag.Miembro.nombreMiembro</th>
+            <td>@item.miembroId</td>
+            <td>@item.fechaPago</td>
+            <td>@item.montoPago</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<p>Esta es la vista de la lista de pagos por miembro</p>

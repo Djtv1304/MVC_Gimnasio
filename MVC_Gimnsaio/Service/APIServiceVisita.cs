@@ -104,7 +104,7 @@ namespace MVC_Gimnsaio.Service
         {
 
             // Send a GET request to the API
-            HttpResponseMessage response = await httpClient.GetAsync(_baseURL + "api/VisitasPorMiembro/" + idMiembro);
+            HttpResponseMessage response = await httpClient.GetAsync(_baseURL + "VisitasPorMiembro/" + idMiembro);
 
             // Ensure the request was successful
             if (response.IsSuccessStatusCode)
