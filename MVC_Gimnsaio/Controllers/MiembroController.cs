@@ -46,27 +46,39 @@ public class MiembroController : Controller
         [HttpPost] // Etiqueta propia de ASP .NET
         public async Task<IActionResult> Create(Miembro miembro) //Aquí recibo el objeto de tipo miembro
         {
+
             try
             {
+
                 if (miembro != null)
                 {
+
                     // Invoco a la API y le envío el nuevo producto
                     await _apiService.CreateMiembro(miembro); 
                     // Redirijo a la vista principal
                     return RedirectToAction("Index"); 
+
                 }
-            } catch (Exception error)
+
+            } catch (Exception error) 
             {
+            
+
                 return View();
+
             }
+
             return View();
+
         }
         
         // GET: ProductoController/Edit/5
         public async Task<IActionResult> Editar(int idMiembro)
         {
+
             try
             {
+
                 // Invoco a la API y traigo mi producto en base al ID
                 Miembro miembroEncontrado = await _apiService.GetMiembroByID(idMiembro);
 
@@ -80,13 +92,18 @@ public class MiembroController : Controller
 
                     // Retorno el producto a la vista
                     return View(miembroEncontrado);
+
                 }
             }
             catch (Exception error)
             {
+
                 return RedirectToAction("Index");
+
             }
+
             return RedirectToAction("Index");
+
         }
 
         [HttpPost]

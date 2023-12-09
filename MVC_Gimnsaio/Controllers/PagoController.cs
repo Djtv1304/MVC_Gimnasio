@@ -10,9 +10,9 @@ public class PagoController : Controller
 
     public PagoController( IAPIServicePago IAPIService)
     {
+
         // Inyecto la dependencia de mi interfaz para poder hacer uso de mis métodos GET, POST, PUT, DELETE
         _apiService = IAPIService;
-        
 
     }
 
@@ -62,36 +62,18 @@ public class PagoController : Controller
             return View();
         }
 
-    // GET: ProductoController/Edit/5
-    public async Task<IActionResult> VerDetallePago(int idPago)
-    {
-        try
-        {
-            // Invoco a la API y traigo mi producto en base al ID
-            Pago pagoEncontrado = await _apiService.GetPagoByID(idPago);
-
-            if (pagoEncontrado != null)
-            {
-                // Retorno el producto a la vista
-                return View(pagoEncontrado);
-            }
-        }
-        catch (Exception error)
-        {
-            return RedirectToAction("Index");
-        }
-        return RedirectToAction("Index");
-    }
-
-    // GET: ProductoController/Delete/5
-    public async Task<IActionResult> Delete(int idPago)
+        // GET: ProductoController/Edit/5
+        public async Task<IActionResult> VerDetallePago(int idPago)
         {
             try
             {
-                if (idPago != 0)
+                // Invoco a la API y traigo mi producto en base al ID
+                Pago pagoEncontrado = await _apiService.GetPagoByID(idPago);
+
+                if (pagoEncontrado != null)
                 {
-                    await _apiService.DeletePago(idPago);
-                    return RedirectToAction("Index");
+                    // Retorno el producto a la vista
+                    return View(pagoEncontrado);
                 }
             }
             catch (Exception error)
@@ -99,6 +81,24 @@ public class PagoController : Controller
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index");
+        }
+
+        // GET: ProductoController/Delete/5
+        public async Task<IActionResult> Delete(int idPago)
+            {
+                try
+                {
+                    if (idPago != 0)
+                    {
+                        await _apiService.DeletePago(idPago);
+                        return RedirectToAction("Index");
+                    }
+                }
+                catch (Exception error)
+                {
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Index");
         }
         
         public async Task<IActionResult> ReversarTransacción(int idPago)

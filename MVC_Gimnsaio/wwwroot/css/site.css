@@ -20,3 +20,52 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Estilos customizados */
+
+.a-text-color {
+
+    color: rgb(96,168,250) !important;
+    text-decoration: none !important;
+
+}
+
+.body-styles {
+
+    height: 100vh;
+    background-image: url(../IMG/LoginGym.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.login-form {
+
+    display: flex;
+    padding: 3em;
+    flex-flow: column nowrap;
+    width: 40%;
+    backdrop-filter: blur(7px);
+    border-radius: 2em;
+
+}
+
+.form-styles {
+
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1em;
+
+}
+
+.background-rgba {
+
+    height: 100vh;
+    color: white;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+
+}
