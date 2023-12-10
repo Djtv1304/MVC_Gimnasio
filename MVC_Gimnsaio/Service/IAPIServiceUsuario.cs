@@ -5,7 +5,9 @@ namespace MVC_Gimnsaio.Service
     public interface IAPIServiceUsuario
     {
 
-        Task<Usuario> GetUsuario(Usuario usuario);
+        Task<List<Usuario>> GetUsuarios();
+
+        Task<bool> ValidarUsuario(Usuario UserToValidate);
 
         Task<Usuario> CreateUsuario(Usuario newUsuario);
 
