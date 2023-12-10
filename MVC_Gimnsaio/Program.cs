@@ -8,6 +8,17 @@ builder.Services.AddScoped<IAPIServiceMembresia, APIServiceMembresia>();
 builder.Services.AddScoped<IAPIServiceMiembro, APIServiceMiembro>();
 builder.Services.AddScoped<IAPIServicePago, APIServicePago>();
 builder.Services.AddScoped<IAPIServiceVisita, APIServiceVisita>();
+builder.Services.AddScoped<IAPIServiceUsuario, APIServiceUsuario>();
+
+// Agregar el servicio de sesión aquí
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    // Establecer un tiempo de espera de la sesión, por ejemplo, 40 minutos
+    options.IdleTimeout = TimeSpan.FromMinutes(40);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -25,10 +36,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Agregar el middleware de sesión aquí
+app.UseSession();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Usuario}/{action=SignIn}/{id?}");
 
 app.Run();

@@ -5,8 +5,6 @@
     ViewData["Title"] = "Bienvenido a la pantalla de registro!";
 }
 
-<h1>@ViewData["Title"]</h1>
-
 <!DOCTYPE html>
 
 <html>
@@ -20,24 +18,32 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 
-<body>
-    <h1>@ViewData["Title"]</h1>
-    <form method="POST">
+<body class="body-styles-SignUp">
+    <!-- New class -->
+    <div class="background-rgba ">
 
-        <div class="mb-3">
-            <label>Usuario:</label>
-            <input asp-for="username" class="form-control" placeholder="Ingresa tu usuario, puede ser tu correo!">
+        <div class="login-form">
+            <!-- New -->
+            <h1 class="mb-5 text-center">@ViewData["Title"]</h1>
+            <form method="POST" class="mb-4">
+
+                <div class="mb-4">
+                    <label class="mb-2">Usuario:</label>
+                    <input asp-for="username" type="text" class="form-control" placeholder="Ingresa el usuario o correo de tu nueva cuenta!">
+                </div>
+                <div class="mb-4">
+                    <label>Contraseña:</label>
+                    <input asp-for="password" type="password" class="form-control" placeholder="Ingresa la contraseña de tu nueva cuenta!">
+                </div>
+
+                <button type="submit" class="btn btn-outline-light w-100">Registrarse</button>
+
+            </form>
+            <button onclick="location.href='@Url.Action("SignIn", "Usuario")'" class="btn btn-outline-light w-100">Ya tienes cuenta?</button>
+
+            <p>Esta es la vista para registrarse</p>
         </div>
-        <div class="mb-3">
-            <label>Contraseña:</label>
-            <input asp-for="password" class="form-control" placeholder="Ingresa tu contraseña!">
-        </div>
-
-        <button type="submit" class="btn btn-outline-light">Iniciar Sesión</button>
-
-    </form>
-
-    <p>Esta es la vista para registrarse</p>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

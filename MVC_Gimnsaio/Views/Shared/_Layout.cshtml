@@ -36,6 +36,20 @@
                     </li>
                 </ul>
             </div>
+            <span id="nombreUsuario"></span>
+                <!-- Example single danger button -->
+                <div class="dropdown-center">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-regular fa-circle-user"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" onclick="ClearSessionStorage()" asp-controller="Usuario" asp-action="SignIn">Cerrar Sesión</a></li>
+@*                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Separated link</a></li> *@
+                    </ul>
+                </div>
         </div>
     </nav>
 </header>
@@ -64,6 +78,22 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://kit.fontawesome.com/acf261d014.js" crossorigin="anonymous"></script>
 @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        // Esperar a que el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function () {
+            // Recuperar el nombre de usuario del session storage
+            var username = sessionStorage.getItem('Username');
+            console.log("Username: " + username);
+            // Si existe el nombre de usuario, mostrarlo en el elemento con id 'nombreUsuario'
+            if (username) {
+
+                document.getElementById('nombreUsuario').innerHTML = "Bienvenido " + username + ' a su gimnasio preferido <i class="fa-solid fa-dumbbell"></i>!';
+
+            }
+        });
+    </script>
 </body>
 </html>

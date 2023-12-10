@@ -30,7 +30,7 @@ namespace MVC_Gimnsaio.Service
         {
 
             // Send a GET request to the API
-            HttpResponseMessage response = await httpClient.GetAsync(_baseURL + "api/Usuario");
+            HttpResponseMessage response = await httpClient.GetAsync(_baseURL + "api/Usuarios");
 
             // Ensure the request was successful
             if (response.IsSuccessStatusCode)
@@ -80,7 +80,7 @@ namespace MVC_Gimnsaio.Service
             var newUsuarioJSON = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Send a POST request to the API
-            HttpResponseMessage response = await httpClient.PostAsync(_baseURL + "api/Usuario", newUsuarioJSON);
+            HttpResponseMessage response = await httpClient.PostAsync(_baseURL + "api/Usuarios", newUsuarioJSON);
 
             // Ensure the request was successful
             if (response.IsSuccessStatusCode)

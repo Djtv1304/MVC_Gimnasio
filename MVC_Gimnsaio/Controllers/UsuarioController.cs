@@ -1,89 +1,112 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MVC_Gimnsaio.Models;
+using MVC_Gimnsaio.Service;
+using Newtonsoft.Json;
 
 namespace MVC_Gimnsaio.Controllers
 {
     public class UsuarioController : Controller
     {
-        // GET: UsuariosController
-        public ActionResult Index()
+
+        private readonly IAPIServiceUsuario _apiServiceUsuario;
+
+        public UsuarioController(IAPIServiceUsuario apiServiceUsuario)
         {
+
+            _apiServiceUsuario = apiServiceUsuario;
+
+        }
+
+        // GET: UsuariosController
+        public IActionResult Index()
+        {
+
             return RedirectToAction("SignIn");
+
         }
 
         // GET: UsuariosController
-        public ActionResult SignIn()
+        public IActionResult SignIn()
         {
-            return View();
-        }
 
-        // GET: UsuariosController/Details/5
-        public ActionResult Details(int id)
-        {
             return View();
-        }
 
-        // GET: UsuariosController/Create
-        public ActionResult Create()
-        {
-            return View();
         }
 
         // POST: UsuariosController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> SignIn(Usuario UserToLogin)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+
+                bool isAuthenticated = await _apiServiceUsuario.ValidarUsuario(UserToLogin);
+
+                if (isAuthenticated)
+                {
+
+                    // Guardar información del usuario en la sesión
+                    HttpContext.Session.SetString("Username", UserToLogin.username);
+                    
+
+                    return RedirectToAction("Index", "Home");
+
+                }
+
+                // Aquí asignamos el mensaje de error
+                ViewBag.ErrorMessage = "Usuario o contraseña incorrectos.";
+
+                return View();
+
             }
             catch
             {
+
+                // Aquí también podrías asignar un mensaje de error si lo deseas
+                ViewBag.ErrorMessage = "Ocurrió un error al intentar iniciar sesión.";
                 return View();
+
             }
+
         }
 
-        // GET: UsuariosController/Edit/5
-        public ActionResult Edit(int id)
+        // GET: UsuariosController/Create
+        public IActionResult SignUp()
         {
+
             return View();
+
         }
 
-        // POST: UsuariosController/Edit/5
+        // POST: UsuariosController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> SignUp(Usuario NewUser)
         {
+
             try
             {
-                return RedirectToAction(nameof(Index));
+
+                Usuario NewUserConfirmation = await _apiServiceUsuario.CreateUsuario(NewUser);
+
+                if(NewUserConfirmation == null)
+                {
+
+                    return View();
+
+                }
+
+                return RedirectToAction("SignIn");
             }
+
             catch
             {
+
                 return View();
+
             }
+
         }
 
-        // GET: UsuariosController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UsuariosController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
