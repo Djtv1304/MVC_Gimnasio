@@ -39,12 +39,12 @@ namespace MVC_Gimnsaio.Controllers
         {
             try
             {
-                bool isAuthenticated = await _apiServiceUsuario.ValidarUsuario(UserToLogin);
+                UserToLogin.isAuthenticated = await _apiServiceUsuario.ValidarUsuario(UserToLogin);
 
-                if (isAuthenticated)
+                if (UserToLogin.isAuthenticated)
                 {
                     // Guardar información del usuario en la sesión
-                    HttpContext.Session.SetString("Username", UserToLogin.username);
+                    HttpContext.Session.SetString("User", JsonConvert.SerializeObject(UserToLogin));
 
                     // Redirigir a la página de inicio
                     return RedirectToAction("Index", "Home");
