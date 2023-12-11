@@ -3,12 +3,3 @@
 
 // Write your JavaScript code.
 
-function ClearSessionStorage() {
-
-    addEventListener('DOMContentLoaded', function () {
-
-        this.sessionStorage.clear();
-
-    });
-
-}

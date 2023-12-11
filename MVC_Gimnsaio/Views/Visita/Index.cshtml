@@ -14,7 +14,7 @@
     <tr>
         <th scope="col">Id</th>
         <th scope="col">Fecha:</th>
-        <th scope="col">Id del miembro:</th>
+        <th scope="col">Miembro:</th>
     </tr>
     </thead>
     
@@ -24,7 +24,18 @@
         <tr>
             <th scope="row">@item.idVisita</th>
             <td>@item.fechaVisita</td>
-            <td>@item.miembroId</td>
+
+            @foreach (var miembro in ViewBag.Miembros) 
+            {
+
+                    @if (item.miembroId == miembro.idMiembro)
+                    {
+
+                        <td>@miembro.nombreMiembro @miembro.apellidoMiembro</td>
+
+                    }
+
+            }
             <td>
                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                     @*Ver, editar, borrar*@
@@ -40,4 +51,4 @@
 </table>
 
 
-<p>Esta es la vista de la lista de visitas</p>7
+<p>Esta es la vista de la lista de visitas</p>

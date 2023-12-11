@@ -6,8 +6,17 @@
 
 <form method="post">
     <div class="mb-3">
-        <label>Id del pagador:</label>
-        <input asp-for="miembroId" class="form-control" placeholder="Ingrese el id del pagador">
+        <label>Pagador:</label>
+
+        @if(ViewBag.Miembros != null)
+        {
+
+            <select asp-for="miembroId" asp-items="ViewBag.Miembros" class="form-control">
+                <option value="" selected >Selecciona el miembro del pago</option>
+            </select>
+
+        }
+
     </div>
     <div class="mb-3">
         <label>Monto Pago:</label>

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MVC_Gimnsaio.Models;
 using MVC_Gimnsaio.Service;
 
@@ -7,12 +8,14 @@ namespace MVC_Gimnsaio.Controllers;
 public class PagoController : Controller
 {
     private readonly IAPIServicePago _apiService;
+    private readonly IAPIServiceMiembro _apiServiceMiembro;
 
-    public PagoController( IAPIServicePago IAPIService)
+    public PagoController( IAPIServicePago IAPIService, IAPIServiceMiembro IAPIServiceMiembro)
     {
 
         // Inyecto la dependencia de mi interfaz para poder hacer uso de mis métodos GET, POST, PUT, DELETE
         _apiService = IAPIService;
+        _apiServiceMiembro = IAPIServiceMiembro;
 
     }
 
@@ -23,7 +26,10 @@ public class PagoController : Controller
         {
             try 
             {
+
                 List<Pago> pagos = await _apiService.GetPagos();
+
+                ViewBag.Miembros =  await _apiServiceMiembro.GetMiembros();
 
                 return View(pagos);
             }
@@ -34,9 +40,15 @@ public class PagoController : Controller
         }
 
         // GET: ProductoController/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+
+            List<Miembro> listaMiembros =  await _apiServiceMiembro.GetMiembros();
+
+            ViewBag.Miembros = new SelectList(listaMiembros, "idMiembro", "NombreCompleto");
+
             return View();
+
         }
 
         [HttpPost] // Etiqueta propia de ASP .NET
@@ -69,6 +81,8 @@ public class PagoController : Controller
             {
                 // Invoco a la API y traigo mi producto en base al ID
                 Pago pagoEncontrado = await _apiService.GetPagoByID(idPago);
+
+                ViewBag.MiembroDelPago = await _apiServiceMiembro.GetMiembroByID(pagoEncontrado.miembroId);
 
                 if (pagoEncontrado != null)
                 {

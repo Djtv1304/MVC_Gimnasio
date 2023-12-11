@@ -11,9 +11,9 @@
 <table class="table table-hover">
     <thead>
     <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Id del miembro:</th>
-        <th scope="col">Fecha pago:</th>
+        <th scope="col">ID</th>
+        <th scope="col">Miembro:</th>
+        <th scope="col">Fecha del pago:</th>
         <th scope="col">Monto:</th>
     </tr>
     </thead>
@@ -23,8 +23,17 @@
     {
         <tr>
             <th scope="row">@item.idPago</th>
-            <td>@item.miembroId</td>
+            @foreach (var miembro in ViewBag.Miembros) 
+            {
 
+                    @if (item.miembroId == miembro.idMiembro)
+                    {
+
+                        <td>@miembro.nombreMiembro @miembro.apellidoMiembro</td>
+
+                    }
+
+            }
             <td>@item.fechaPago</td>
             <td>@item.montoPago</td>
             <td>

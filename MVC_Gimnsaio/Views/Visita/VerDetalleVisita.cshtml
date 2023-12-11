@@ -9,7 +9,12 @@
         <label>Fecha: @Model.fechaVisita</label>
     </div>
     <div class="mb-3">
-        <label>Id del miembro: @Model.miembroId</label>
+        @if (ViewBag.MiembroDeLaVisita != null)
+        {
+
+            <label>Miembro de la visita: @ViewBag.MiembroDeLaVisita.nombreMiembro @ViewBag.MiembroDeLaVisita.apellidoMiembro</label>
+
+        }
     </div>
     
     <div class="mb-3">

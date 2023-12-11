@@ -34,42 +34,36 @@ namespace MVC_Gimnsaio.Controllers
 
         }
 
-        // POST: UsuariosController/Create
         [HttpPost]
         public async Task<IActionResult> SignIn(Usuario UserToLogin)
         {
             try
             {
-
                 bool isAuthenticated = await _apiServiceUsuario.ValidarUsuario(UserToLogin);
 
                 if (isAuthenticated)
                 {
-
                     // Guardar información del usuario en la sesión
                     HttpContext.Session.SetString("Username", UserToLogin.username);
-                    
 
+                    // Redirigir a la página de inicio
                     return RedirectToAction("Index", "Home");
-
                 }
 
                 // Aquí asignamos el mensaje de error
                 ViewBag.ErrorMessage = "Usuario o contraseña incorrectos.";
 
                 return View();
-
             }
             catch
             {
-
                 // Aquí también podrías asignar un mensaje de error si lo deseas
                 ViewBag.ErrorMessage = "Ocurrió un error al intentar iniciar sesión.";
                 return View();
-
             }
-
         }
+
+
 
         // GET: UsuariosController/Create
         public IActionResult SignUp()
@@ -106,6 +100,16 @@ namespace MVC_Gimnsaio.Controllers
 
             }
 
+        }
+
+        [HttpGet]
+        public IActionResult GetUsername()
+        {
+            // Recuperar el nombre de usuario de la sesión
+            var username = HttpContext.Session.GetString("Username");
+
+            // Devolver el nombre de usuario en formato JSON
+            return Json(new { username });
         }
 
     }

@@ -109,126 +109,175 @@ public class MiembroController : Controller
         [HttpPost]
         public async Task<IActionResult> Editar(Miembro nuevoMiembro)
         {
+
             try
             {
+
                 if (nuevoMiembro != null)
                 {
+
                     // Envío a la API el nuevo producto y el ID del mismo
                     await _apiService.UpdateMiembro(nuevoMiembro, nuevoMiembro.idMiembro);
                     return RedirectToAction("Index");
+
                 }
+
                 // Retorno el miembro a la vista
                 return View(nuevoMiembro);
+
             }
             catch (Exception error) 
             {
+
                 return View();
+
             }
+
         }
 
 
         // GET: ProductoController/Delete/5
         public async Task<IActionResult> Delete(int idMiembro)
         {
+
             try
             {
+
                 if (idMiembro != 0)
                 {
+
                     await _apiService.DeleteMiembro(idMiembro);
                     return RedirectToAction("Index");
+
                 }
+
             }
             catch (Exception error)
             {
+
                 return RedirectToAction();
+
             }
+
             return RedirectToAction("Index");
+
         }
 
         public async Task<IActionResult> VerDetalleMiembro(int idMiembro)
         {
+
             try
             {
+
                 // Invoco a la API y traigo mi producto en base al ID
                 Miembro miembroEncontrado = await _apiService.GetMiembroByID(idMiembro);
 
                 if (miembroEncontrado != null)
                 {
+
                     // Retorno el producto a la vista
                     return View(miembroEncontrado);
+
                 }
+
             }
             catch (Exception error)
             {
+
                 return RedirectToAction("Index");
+
             }
+
             return RedirectToAction("Index");
+
         }
         
         public async Task<IActionResult> AdministrarMembresia(int idMiembro)
         {
+
             try
             {
+
                 // Invoco a la API y traigo mi producto en base al ID
                 Miembro miembroEncontrado = await _apiService.GetMiembroByID(idMiembro);
-                Membresia membresiaEncontrada =
-                    await _apiServiceMembresia.GetMembresiaByID(miembroEncontrado.idMembresia);
+
+                Membresia membresiaEncontrada = await _apiServiceMembresia.GetMembresiaByID(miembroEncontrado.idMembresia);
 
                 if (membresiaEncontrada != null)
                 {
+
                     // Retorno el producto a la vista
                     return View(membresiaEncontrada);
+
+                }
+
+            }
+            catch (Exception error)
+            {
+
+                return RedirectToAction("Index");
+
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> VerPagosPorMiembro(int idMiembro)
+        {
+
+            try
+            {
+
+                Miembro miembroEncontrado = await _apiService.GetMiembroByID(idMiembro);
+
+                List<Pago> pagos = await _apiServicePago.GetPagosPorMiembro(miembroEncontrado.idMiembro);
+
+                if (pagos.Count > 0)
+                {
+
+                    // Obtén el miembro
+                    Miembro miembro = await _apiService.GetMiembroByID(idMiembro);
+
+                    // Pásalo a la vista
+                    ViewBag.Miembro = miembro;
+
+                    // Retorno el producto a la vista
+                    return View(pagos);
+
                 }
             }
             catch (Exception error)
             {
+
                 return RedirectToAction("Index");
+
             }
+
             return RedirectToAction("Index");
+
         }
 
-    public async Task<IActionResult> VerPagosPorMiembro(int idMiembro)
-    {
-        try
-        {
-            Miembro miembroEncontrado = await _apiService.GetMiembroByID(idMiembro);
-            List<Pago> pagos = await _apiServicePago.GetPagosPorMiembro(miembroEncontrado.idMiembro);
-
-            if (pagos.Count > 0)
-            {
-                // Obtén el miembro
-                Miembro miembro = await _apiService.GetMiembroByID(idMiembro);
-
-                // Pásalo a la vista
-                ViewBag.Miembro = miembro;
-
-                // Retorno el producto a la vista
-                return View(pagos);
-            }
-        }
-        catch (Exception error)
-        {
-            return RedirectToAction("Index");
-        }
-        return RedirectToAction("Index");
-    }
-
-
-
-    public async Task<IActionResult> Renovar(int idMembresia)
+        public async Task<IActionResult> Renovar(int idMembresia)
         {
             
             return RedirectToAction("Index");
+
         }
+
+
         public async Task<IActionResult> Cancelar(int idMembresia)
         {
+
             return RedirectToAction("Index");
+
         }
 
         public async Task<IActionResult> VisitasMiembro(int idMiembro)
         {
+
             try
             {
+
                 List<Visita> visitasPorMiembro = await _apiServiceVisita.GetVisitasPorMiembro(idMiembro);
 
                 if (visitasPorMiembro != null)
@@ -242,12 +291,16 @@ public class MiembroController : Controller
 
                     // Retorno el producto a la vista
                     return View(visitasPorMiembro);
+
                 }
             }
             catch (Exception error)
             {
+
                 return RedirectToAction("Index");
+
             }
+
             return RedirectToAction("Index");
         }
 }

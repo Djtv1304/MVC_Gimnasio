@@ -36,20 +36,22 @@
                     </li>
                 </ul>
             </div>
-            <span id="nombreUsuario"></span>
+            <div class="d-flex justify-content-between align-items-center gap-3 me-2">
+                <span id="nombreUsuario"></span>
                 <!-- Example single danger button -->
-                <div class="dropdown-center">
+                <div class="btn-group dropdown-center">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-regular fa-circle-user"></i>
                     </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" onclick="ClearSessionStorage()" asp-controller="Usuario" asp-action="SignIn">Cerrar Sesión</a></li>
+                    <ul class="dropdown-menu left-class">
+                        <li><a class="dropdown-item w-100" asp-controller="Usuario" asp-action="SignIn">Cerrar Sesión</a></li>
 @*                      <li><a class="dropdown-item" href="#">Another action</a></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Separated link</a></li> *@
                     </ul>
                 </div>
+            </div>
         </div>
     </nav>
 </header>
@@ -82,16 +84,20 @@
 @await RenderSectionAsync("Scripts", required: false)
 
     <script>
-        // Esperar a que el DOM esté listo
-        document.addEventListener('DOMContentLoaded', function () {
-            // Recuperar el nombre de usuario del session storage
-            var username = sessionStorage.getItem('Username');
-            console.log("Username: " + username);
-            // Si existe el nombre de usuario, mostrarlo en el elemento con id 'nombreUsuario'
-            if (username) {
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Realizar la solicitud para obtener el nombre de usuario
+            const response = await fetch('@Url.Action("GetUsername", "Usuario")');
 
-                document.getElementById('nombreUsuario').innerHTML = "Bienvenido " + username + ' a su gimnasio preferido <i class="fa-solid fa-dumbbell"></i>!';
+            // Verificar si la solicitud fue exitosa
+            if (response.ok) {
+                const result = await response.json();
+                const username = result.username;
 
+                // Verificar si el nombre de usuario no es nulo
+                if (username) {
+                    // Actualizar el contenido del span con el mensaje
+                    document.getElementById('nombreUsuario').innerHTML = "Bienvenido " + username + ' a su gimnasio preferido <i class="fa-solid fa-dumbbell"></i>';
+                }
             }
         });
     </script>

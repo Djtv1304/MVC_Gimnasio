@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace MVC_Gimnsaio.Models;
 
 public class Miembro
@@ -13,4 +15,10 @@ public class Miembro
     public string emailMiembro { get; set; }
     
     public DateTime fechaInscripcion { get; set; }
+
+    [NotMapped]
+    public string NombreCompleto
+    {
+        get { return nombreMiembro + " " + apellidoMiembro; }
+    }
 }

@@ -10,8 +10,18 @@
         <input asp-for="fechaVisita" class="form-control" placeholder="Ingrese la fecha">
     </div>
     <div class="mb-3">
-        <label>ID del miembro:</label>
-        <input asp-for="miembroId" class="form-control" placeholder="Ingrese el id">
+@*         <label>ID del miembro:</label>
+        <input asp-for="miembroId" class="form-control" placeholder="Ingrese el id"> *@
+        <label>Nuevo miembro:</label>
+        @if(ViewBag.Miembros != null)
+        {
+
+            <select asp-for="miembroId" asp-items="ViewBag.Miembros" class="form-control">
+                <option value="">Selecciona un miembro</option>
+            </select>
+
+        }
+
     </div>
     <div class="mb-3">
         <label>Descripción de la visita:</label>
