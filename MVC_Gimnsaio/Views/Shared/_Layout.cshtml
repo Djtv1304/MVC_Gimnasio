@@ -25,13 +25,13 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Membresía" asp-action="Index">Membresía</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item elements-to-hide">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Miembro" asp-action="Index">Miembro</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item elements-to-hide">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Pago" asp-action="Index">Pago</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item elements-to-hide">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Visita" asp-action="Index">Visita</a>
                     </li>
                 </ul>
@@ -44,9 +44,9 @@
                         <i class="fa-regular fa-circle-user"></i>
                     </button>
                     <ul class="dropdown-menu left-class">
-                        <li><a class="dropdown-item w-100" asp-controller="Usuario" asp-action="SignIn">Cerrar Sesión</a></li>
-@*                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li id="CerrarSesionButton" class="elements-to-hide"><a class="dropdown-item w-100" asp-controller="Usuario" asp-action="SignOutSession">Cerrar Sesión</a></li>
+                        <li id="IniciarSesionButton" ><a class="dropdown-item w-100" asp-controller="Usuario" asp-action="SignIn">Iniciar Sesión</a></li>
+@*                      <li><a class="dropdown-item" href="#">Something else here</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Separated link</a></li> *@
                     </ul>
@@ -86,7 +86,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
             // Realizar la solicitud para obtener el nombre de usuario
-            const response = await fetch('@Url.Action("GetUsername", "Usuario")');
+            const response = await fetch('@Url.Action("GetUser", "Usuario")');
 
             // Verificar si la solicitud fue exitosa
             if (response.ok) {
@@ -94,12 +94,44 @@
                 const username = result.username;
 
                 // Verificar si el nombre de usuario no es nulo
-                if (username) {
+                if (username && username != "") {
                     // Actualizar el contenido del span con el mensaje
                     document.getElementById('nombreUsuario').innerHTML = "Bienvenido " + username + ' a su gimnasio preferido <i class="fa-solid fa-dumbbell"></i>';
                 }
             }
         });
+
+
+        window.onload = function () {
+
+            // Hacer una solicitud GET a GetUser
+            fetch('@Url.Action("GetUser", "Usuario")')
+                .then(response => response.json())
+                .then(user => {
+
+                    // Si el usuario está autenticado
+                    if (user.isAuthenticated) {
+
+                        // Mostrar las opciones que solo deben ser visibles para los usuarios autenticados
+                        document.querySelectorAll('.elements-to-hide').forEach(element => {
+                            element.style.display = 'list-item';
+                        });
+                        document.getElementById('IniciarSesionButton').style.display = 'none';
+
+                    } else {
+
+                        // Ocultar las opciones que solo deben ser visibles para los usuarios autenticados
+                        document.querySelectorAll('.elements-to-hide').forEach(element => {
+                            element.style.display = 'none';
+                        });
+                        document.getElementById('IniciarSesionButton').style.display = 'list-item';
+                    }
+
+                }); 
+
+        };
+
+
     </script>
 </body>
 </html>

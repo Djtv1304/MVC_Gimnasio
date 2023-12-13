@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using MVC_Gimnsaio.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,9 @@ builder.Services.AddScoped<IAPIServicePago, APIServicePago>();
 builder.Services.AddScoped<IAPIServiceVisita, APIServiceVisita>();
 builder.Services.AddScoped<IAPIServiceUsuario, APIServiceUsuario>();
 
+// Agregar el servicio de IActionContextAccessor aquí
+builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
 // Agregar el servicio de sesión aquí
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -21,7 +26,6 @@ builder.Services.AddSession(options =>
 });
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -43,6 +47,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Usuario}/{action=SignIn}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

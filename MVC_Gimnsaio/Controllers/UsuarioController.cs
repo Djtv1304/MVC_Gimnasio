@@ -34,6 +34,16 @@ namespace MVC_Gimnsaio.Controllers
 
         }
 
+        // GET: UsuariosController
+        public IActionResult SignOutSession()
+        {
+
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("SignIn"); ;
+
+        }
+
         [HttpPost]
         public async Task<IActionResult> SignIn(Usuario UserToLogin)
         {
@@ -103,14 +113,40 @@ namespace MVC_Gimnsaio.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUsername()
+        public IActionResult GetUser()
         {
-            // Recuperar el nombre de usuario de la sesión
-            var username = HttpContext.Session.GetString("Username");
 
-            // Devolver el nombre de usuario en formato JSON
-            return Json(new { username });
+            // Recuperar el objeto Usuario de la sesión
+            var userJson = HttpContext.Session.GetString("User");
+
+            if (userJson != null)
+            {
+
+                // Deserializar el objeto Usuario
+                Usuario SessionUser = JsonConvert.DeserializeObject<Usuario>(userJson);
+
+                // Devolver el objeto Usuario completo en formato JSON
+                return Json(SessionUser);
+
+            }
+
+            // Aquí manejas el caso en que no hay un usuario en la sesión
+            // Creas un nuevo objeto Usuario con atributos vacíos y isAuthenticated en false
+            Usuario EmptyUser = new Usuario
+            {
+
+                idUsuario = 0,
+                username = string.Empty,
+                password = string.Empty,
+                isAuthenticated = false
+
+            };
+
+            return Json(EmptyUser);
+
         }
+
+
 
     }
 }

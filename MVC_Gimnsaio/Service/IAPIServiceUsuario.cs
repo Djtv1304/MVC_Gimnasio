@@ -11,5 +11,7 @@ namespace MVC_Gimnsaio.Service
 
         Task<Usuario> CreateUsuario(Usuario newUsuario);
 
+        Task<Usuario> GetSessionUser();
+
     }
 }

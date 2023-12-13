@@ -4,8 +4,12 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+@if (ViewBag.SessionUser != null && ViewBag.SessionUser.isAuthenticated)
+{
 
-<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Membresía")'">Nueva Membresía</button>
+    <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Membresía")'">Nueva Membresía</button>
+
+}
 
 <table class="table table-hover">
     <thead>
@@ -25,17 +29,21 @@
             <td>@item.nombreMembresia</td>
             <td>@item.duracionMembresia</td>
             <td>@item.precioMembresia</td>
-            <td>
-                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                    <a asp-action="VerDetalleMembresia" asp-route-idMembresia="@item.idMembresia" class="btn btn-danger">Ver detalles <i class="bi bi-eye"></i></a>
-                    <a asp-action="Edit" asp-route-idMembresia="@item.idMembresia" class="btn btn-danger">Editar <i class="bi bi-pencil-square"></i></a>
-                    <a asp-action="Delete" asp-route-idMembresia="@item.idMembresia" class="btn btn-warning">Borrar <i class="bi bi-trash-fill"></i></a>
-                </div>
-            </td>
+            @if(ViewBag.SessionUser != null && ViewBag.SessionUser.isAuthenticated)
+            {
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <a asp-action="VerDetalleMembresia" asp-route-idMembresia="@item.idMembresia" class="btn btn-danger">Ver detalles <i class="bi bi-eye"></i></a>
+                        <a asp-action="Edit" asp-route-idMembresia="@item.idMembresia" class="btn btn-danger">Editar <i class="bi bi-pencil-square"></i></a>
+                        <a asp-action="Delete" asp-route-idMembresia="@item.idMembresia" class="btn btn-warning">Borrar <i class="bi bi-trash-fill"></i></a>
+                    </div>
+                </td>
+            }
+
         </tr>
     }
     </tbody>
 </table>
 
 
-<p>Esta es la vista de la lista de productos</p>
+<p>Esta es la vista de la lista de Membresías</p>

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using MVC_Gimnsaio.Models;
 using Newtonsoft.Json;
+using System;
 using System.Text;
 
 namespace MVC_Gimnsaio.Service
@@ -9,10 +11,11 @@ namespace MVC_Gimnsaio.Service
     {
 
         private static string _baseURL;
+        private readonly IActionContextAccessor _actionContextAccessor;
 
         HttpClient httpClient = new HttpClient();
 
-        public APIServiceUsuario()
+        public APIServiceUsuario(IActionContextAccessor actionContextAccessor)
         {
 
             // Añadir el archivo JSON al contenedor
@@ -23,6 +26,8 @@ namespace MVC_Gimnsaio.Service
 
             _baseURL = builder.GetSection("ApiSettings:BaseUrl").Value;
             httpClient.BaseAddress = new Uri(_baseURL);
+
+            _actionContextAccessor = actionContextAccessor;
 
         }
 
@@ -101,6 +106,24 @@ namespace MVC_Gimnsaio.Service
 
         }
 
+        public async Task<Usuario> GetSessionUser()
+        {
+
+            // Obtener el HttpContext
+            var httpContext = _actionContextAccessor.ActionContext.HttpContext;
+
+            // Hacer una solicitud GET a GetUser
+            var response = await httpClient.GetAsync(httpContext.Request.Scheme + "://" + httpContext.Request.Host + "/Usuario/GetUser");
+
+            // Leer la respuesta como una cadena
+            var userJson = await response.Content.ReadAsStringAsync();
+
+            // Deserializar la respuesta en un objeto Usuario
+            Usuario SessionUser = JsonConvert.DeserializeObject<Usuario>(userJson);
+
+            return SessionUser;
+
+        }
 
     }
 }
