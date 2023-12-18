@@ -61,6 +61,8 @@ public class PagoController : Controller
 
                 if (pago != null || miembroDelPago != null)
                 {
+
+                    pago.fechaPago = DateTime.Now;
                     // Invoco a la API y le envío el nuevo producto
                     await _apiService.CreatePago(pago); 
                  

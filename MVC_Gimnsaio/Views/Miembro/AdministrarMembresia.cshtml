@@ -7,11 +7,12 @@
 
 <form method="post">
     <div class="mb-3">
-        <label>:</label>
-        <input asp-for="idMembresia" class="form-control" placeholder="Ingrese el id de membresía">
+        <label>ID de la Membresía :</label>
+        <input asp-for="idMembresia" class="form-control" placeholder="ID de la membresía" disabled>
+        <label>Con el ID se puede consultar la membresía dentro de la pantalla de membresías</label>
     </div>
     <div class="mb-3">
-        <label>Tipo: @Model.duracionMembresia</label>
+        <label>Tipo: @Model.nombreMembresia</label>
     </div>
 <div class="mb-3">
         <label>Duración: @Model.duracionMembresia</label>
@@ -22,12 +23,12 @@
     </div>    
 
     <div class="row col-6">
-        <a asp-action="Renovar" asp-route-idMembresia="idMembresia" class="btn btn-danger"><i class="bi bi-arrow-repeat"></i></a>
-        <a asp-action="Cancelar" asp-route-idMembresia="idMembresia" class="btn btn-danger"><i class="bi bi-x-square-fill"></i></a>
+@*         <a asp-action="Renovar" asp-route-idMembresia="idMembresia" class="btn btn-danger">Renovar Membresía<i class="bi bi-arrow-repeat"></i></a> *@
+@*         <a asp-action="Cancelar" asp-route-idMembresia="idMembresia" class="btn btn-danger">Cancelar Membresía<i class="bi bi-x-square-fill"></i></a> *@
         <div class="col-6 col-md-6">
             <a asp-action="Index" class="btn btn-outline-secondary">Regresar</a>
         </div>
     </div>
 </form>
 
-<p>Esta es la vista para crear membresías</p>
+<p>Esta es la vista para ver la membresía del miembro</p>
